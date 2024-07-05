@@ -1,10 +1,28 @@
-*{
+* {
     margin: 0;
     padding: 0;
-
 }
 
-body{
-    background: #292828 ; 
+body {
+    background: #292828;
+  
+}
 
+#axis-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 10px;
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #dddddd;
 }

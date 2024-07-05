@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 const addCubes = (scene: THREE.Scene) => {
     // Añade el primer cubo
-    const geometry1 = new THREE.BoxGeometry(1, 1, 1);
+    const geometry1 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
     const material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube1 = new THREE.Mesh(geometry1, material1);
     scene.add(cube1);

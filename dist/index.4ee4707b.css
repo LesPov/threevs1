@@ -6,4 +6,23 @@
 body {
   background: #292828;
 }
+
+#axis-controls {
+  gap: 10px;
+  display: flex;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+button {
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  padding: 10px;
+}
+
+button:hover {
+  background: #ddd;
+}
 /*# sourceMappingURL=index.4ee4707b.css.map */

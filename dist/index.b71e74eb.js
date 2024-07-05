@@ -589,13 +589,15 @@ var _controls = require("./componets/controls");
 var _animation = require("./componets/animation");
 var _cube = require("./componets/cube");
 var _grid = require("./componets/grid");
+var _axisControls = require("./componets/axisControls");
 // Configuración de la escena y otros elementos
 (0, _grid.addGrid)((0, _scene.scene));
 (0, _cube.addCubes)((0, _scene.scene));
 (0, _controls.controls).update();
+(0, _axisControls.initAxisControls)();
 (0, _animation.animate)();
 
-},{"./componets/scene":"buqgy","./componets/controls":"bkdiG","./componets/animation":"1SQfl","./componets/cube":"71AOE","./componets/grid":"3vrv3"}],"buqgy":[function(require,module,exports) {
+},{"./componets/scene":"buqgy","./componets/controls":"bkdiG","./componets/animation":"1SQfl","./componets/cube":"71AOE","./componets/grid":"3vrv3","./componets/axisControls":"2Ot1M"}],"buqgy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "scene", ()=>scene);
@@ -32910,6 +32912,54 @@ const addGrid = (scene)=>{
     scene.add(gridHelper);
 };
 
-},{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}]},["kZriX","h7u1C"], "h7u1C", "parcelRequiredac3")
+},{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"2Ot1M":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initAxisControls", ()=>initAxisControls);
+var _camera = require("./camera");
+var _controls = require("./controls");
+// Función para mover la cámara a una posición específica basada en el eje seleccionado
+const moveCameraToAxis = (axis)=>{
+    switch(axis){
+        case "x":
+            (0, _camera.camera).position.set(5, 0, 0);
+            break;
+        case "-x":
+            (0, _camera.camera).position.set(-5, 0, 0);
+            break;
+        case "y":
+            (0, _camera.camera).position.set(0, 5, 0);
+            break;
+        case "-y":
+            (0, _camera.camera).position.set(0, -5, 0);
+            break;
+        case "z":
+            (0, _camera.camera).position.set(0, 0, 5);
+            break;
+        case "-z":
+            (0, _camera.camera).position.set(0, 0, -5);
+            break;
+        case "center":
+            (0, _camera.camera).position.set(0, 2, 5);
+            break;
+    }
+    // Asegúrate de que la cámara siempre mire al cubo central
+    (0, _camera.camera).lookAt(0, 0, 0);
+    // Actualiza los controles
+    (0, _controls.controls).target.set(0, 0, 0);
+    (0, _controls.controls).update();
+};
+// Agrega event listeners a los botones de control de ejes
+const initAxisControls = ()=>{
+    const buttons = document.querySelectorAll("#axis-controls button");
+    buttons.forEach((button)=>{
+        button.addEventListener("click", ()=>{
+            const axis = button.getAttribute("data-axis");
+            if (axis) moveCameraToAxis(axis);
+        });
+    });
+};
+
+},{"./camera":"4gvyn","./controls":"bkdiG","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}]},["kZriX","h7u1C"], "h7u1C", "parcelRequiredac3")
 
 //# sourceMappingURL=index.b71e74eb.js.map
