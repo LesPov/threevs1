@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { scene } from './scene';
 
 const addCubes = (scene: THREE.Scene) => {
     // Añade el primer cubo

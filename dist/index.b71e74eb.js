@@ -588,12 +588,14 @@ var _scene = require("./componets/scene");
 var _controls = require("./componets/controls");
 var _animation = require("./componets/animation");
 var _cube = require("./componets/cube");
+var _grid = require("./componets/grid");
 // Configuración de la escena y otros elementos
+(0, _grid.addGrid)((0, _scene.scene));
 (0, _cube.addCubes)((0, _scene.scene));
 (0, _controls.controls).update();
 (0, _animation.animate)();
 
-},{"./componets/scene":"buqgy","./componets/controls":"bkdiG","./componets/animation":"1SQfl","./componets/cube":"71AOE"}],"buqgy":[function(require,module,exports) {
+},{"./componets/scene":"buqgy","./componets/controls":"bkdiG","./componets/animation":"1SQfl","./componets/cube":"71AOE","./componets/grid":"3vrv3"}],"buqgy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "scene", ()=>scene);
@@ -32894,6 +32896,18 @@ const addCubes = (scene)=>{
     const cube2 = new _three.Mesh(geometry2, material2);
     cube2.position.set(4, 2.5, 0);
     scene.add(cube2);
+};
+
+},{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"3vrv3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "addGrid", ()=>addGrid);
+var _three = require("three");
+const addGrid = (scene)=>{
+    const size = 10; // Tamaño de la cuadrícula
+    const divisions = 10; // Número de divisiones en la cuadrícula
+    const gridHelper = new _three.GridHelper(size, divisions);
+    scene.add(gridHelper);
 };
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}]},["kZriX","h7u1C"], "h7u1C", "parcelRequiredac3")
