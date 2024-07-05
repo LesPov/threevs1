@@ -2,7 +2,6 @@
   "name": "threevs1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
   "scripts": {
     "start": "http-server ./src"
   },
