@@ -5,4 +5,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// Configuración para evitar que la cuadrícula y los ejes desaparezcan al acercarse
+renderer.localClippingEnabled = true;
+
 export { renderer };

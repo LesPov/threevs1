@@ -10,4 +10,4 @@ addGrid(scene);
 addCubes(scene);
 controls.update();
 initAxisControls();
-animate();
+animate(); 

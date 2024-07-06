@@ -606,6 +606,43 @@ const scene = new _three.Scene();
 // Helper para los ejes
 const axesHelper = new _three.AxesHelper(5);
 scene.add(axesHelper);
+// Añadir líneas adicionales para resaltar los ejes negativos
+const addNegativeAxes = ()=>{
+    // Material para el eje negativo X (rojo)
+    const materialX = new _three.LineBasicMaterial({
+        color: 0xfb4901
+    });
+    // Material para el eje negativo Y (verde)
+    const materialY = new _three.LineBasicMaterial({
+        color: 0x00ff00
+    });
+    // Material para el eje negativo Z (azul)
+    const materialZ = new _three.LineBasicMaterial({
+        color: 0x0000ff
+    });
+    // Línea para el eje negativo X
+    const pointsX = [];
+    pointsX.push(new _three.Vector3(-5, 0, 0));
+    pointsX.push(new _three.Vector3(0, 0, 0));
+    const geometryX = new _three.BufferGeometry().setFromPoints(pointsX);
+    const lineX = new _three.Line(geometryX, materialX);
+    scene.add(lineX);
+    // Línea para el eje negativo Y
+    const pointsY = [];
+    pointsY.push(new _three.Vector3(0, -5, 0));
+    pointsY.push(new _three.Vector3(0, 0, 0));
+    const geometryY = new _three.BufferGeometry().setFromPoints(pointsY);
+    const lineY = new _three.Line(geometryY, materialY);
+    scene.add(lineY);
+    // Línea para el eje negativo Z
+    const pointsZ = [];
+    pointsZ.push(new _three.Vector3(0, 0, -5));
+    pointsZ.push(new _three.Vector3(0, 0, 0));
+    const geometryZ = new _three.BufferGeometry().setFromPoints(pointsZ);
+    const lineZ = new _three.Line(geometryZ, materialZ);
+    scene.add(lineZ);
+};
+addNegativeAxes();
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"j3IZL":[function(require,module,exports) {
 /**
@@ -32862,6 +32899,8 @@ const renderer = new _three.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+// Configuración para evitar que la cuadrícula y los ejes desaparezcan al acercarse
+renderer.localClippingEnabled = true;
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"1SQfl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32877,14 +32916,14 @@ function animate() {
     (0, _renderer.renderer).render((0, _scene.scene), (0, _camera.camera));
 }
 
-},{"./renderer":"8mXWY","./scene":"buqgy","./camera":"4gvyn","./controls":"bkdiG","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"71AOE":[function(require,module,exports) {
+},{"./renderer":"8mXWY","./scene":"buqgy","./camera":"4gvyn","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC","./controls":"bkdiG"}],"71AOE":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addCubes", ()=>addCubes);
 var _three = require("three");
 const addCubes = (scene)=>{
     // Añade el primer cubo
-    const geometry1 = new _three.BoxGeometry(1, 1, 1);
+    const geometry1 = new _three.BoxGeometry(0.5, 0.5, 0.5);
     const material1 = new _three.MeshBasicMaterial({
         color: 0x00ff00
     });
@@ -32906,9 +32945,11 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addGrid", ()=>addGrid);
 var _three = require("three");
 const addGrid = (scene)=>{
-    const size = 10; // Tamaño de la cuadrícula
-    const divisions = 10; // Número de divisiones en la cuadrícula
-    const gridHelper = new _three.GridHelper(size, divisions);
+    const size = 20; // Tamaño de la cuadrícula
+    const divisions = 20; // Número de divisiones en la cuadrícula
+    const gridHelper = new _three.GridHelper(size, divisions, 0x444444, 0x888888);
+    gridHelper.material.opacity = 0.5;
+    gridHelper.material.transparent = true;
     scene.add(gridHelper);
 };
 
