@@ -32062,8 +32062,21 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.25;
 controls.maxPolarAngle = Math.PI / 2; // Limita la cámara a no moverse por debajo del plano XY
 controls.minPolarAngle = 0;
+// Función para limitar el movimiento en el eje Y negativo
+controls.addEventListener("change", ()=>{
+    const { x, y, z } = (0, _camera.camera).position;
+    if (y < 0) (0, _camera.camera).position.setY(0); // Limita la posición mínima en el eje Y a 0
+});
 
-},{"three/examples/jsm/controls/OrbitControls.js":"cjIeq","./camera":"4gvyn","./renderer":"8mXWY","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"cjIeq":[function(require,module,exports) {
+},{"./camera":"4gvyn","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC","three/examples/jsm/controls/OrbitControls.js":"cjIeq","./renderer":"8mXWY"}],"4gvyn":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "camera", ()=>camera);
+var _three = require("three");
+const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 5, 15);
+
+},{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"cjIeq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "OrbitControls", ()=>OrbitControls);
@@ -32901,14 +32914,6 @@ class OrbitControls extends (0, _three.EventDispatcher) {
     }
 }
 
-},{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"4gvyn":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "camera", ()=>camera);
-var _three = require("three");
-const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 5, 15);
-
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"8mXWY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -32969,17 +32974,19 @@ const addGrid = (scene)=>{
     const divisions = 20; // Número de divisiones en la cuadrícula
     // Cuadrícula horizontal
     const gridHelper = new _three.GridHelper(size, divisions, 0x444444);
+    gridHelper.material.opacity = 0.3;
+    gridHelper.material.transparent = true;
     scene.add(gridHelper);
     // Cuadrícula vertical (XZ plane)
     const verticalGridHelperXZ = new _three.GridHelper(size, divisions, 0x444444);
-    verticalGridHelperXZ.material.opacity = 0.5;
+    verticalGridHelperXZ.material.opacity = 0.3;
     verticalGridHelperXZ.material.transparent = true;
     verticalGridHelperXZ.position.set(0, 10, 0);
     verticalGridHelperXZ.rotation.x = Math.PI / 2;
     scene.add(verticalGridHelperXZ);
     // Cuadrícula vertical (YZ plane)
     const verticalGridHelperYZ = new _three.GridHelper(size, divisions, 0x444444);
-    verticalGridHelperYZ.material.opacity = 0.5;
+    verticalGridHelperYZ.material.opacity = 0.3;
     verticalGridHelperYZ.material.transparent = true;
     verticalGridHelperYZ.position.set(0, 10, 0);
     verticalGridHelperYZ.rotation.z = Math.PI / 2;
@@ -33005,8 +33012,7 @@ const moveCameraToAxis = (axis)=>{
             (0, _camera.camera).position.set(0, 15, 0);
             break;
         case "-y":
-            (0, _camera.camera).position.set(0, -15, 0);
-            break; // No hacer nada para el eje -y
+            return; // No hacer nada para el eje -y
         case "z":
             (0, _camera.camera).position.set(0, 0, 15);
             break;

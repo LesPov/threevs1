@@ -6,13 +6,13 @@ const addGrid = (scene: THREE.Scene) => {
 
     // Cuadrícula horizontal
     const gridHelper = new THREE.GridHelper(size, divisions, 0x444444);
-    gridHelper.material.opacity = 0.5;
+    gridHelper.material.opacity = 0.3;
     gridHelper.material.transparent = true;
     scene.add(gridHelper);
 
     // Cuadrícula vertical (XZ plane)
     const verticalGridHelperXZ = new THREE.GridHelper(size, divisions, 0x444444);
-    verticalGridHelperXZ.material.opacity = 0.5;
+    verticalGridHelperXZ.material.opacity = 0.3;
     verticalGridHelperXZ.material.transparent = true;
     verticalGridHelperXZ.position.set(0,10,0);
     verticalGridHelperXZ.rotation.x = Math.PI / 2;
@@ -20,7 +20,7 @@ const addGrid = (scene: THREE.Scene) => {
 
     // Cuadrícula vertical (YZ plane)
     const verticalGridHelperYZ = new THREE.GridHelper(size, divisions, 0x444444);
-    verticalGridHelperYZ.material.opacity = 0.5;
+    verticalGridHelperYZ.material.opacity = 0.3;
     verticalGridHelperYZ.material.transparent = true;
     verticalGridHelperYZ.position.set(0,10,0);
     verticalGridHelperYZ.rotation.z = Math.PI / 2;
