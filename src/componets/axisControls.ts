@@ -5,30 +5,26 @@ import { controls } from './controls';
 const moveCameraToAxis = (axis: string) => {
     switch (axis) {
         case 'x':
-            camera.position.set(5, 0, 0);
+            camera.position.set(15, 0, 0);
             break;
         case '-x':
-            camera.position.set(-5, 0, 0);
+            camera.position.set(-15, 0, 0);
             break;
         case 'y':
-            camera.position.set(0, 5, 0);
+            camera.position.set(0, 15, 0);
             break;
         case '-y':
-            camera.position.set(0, -5, 0);
-            break;
+            return; // No hacer nada para el eje -y
         case 'z':
-            camera.position.set(0, 0, 5);
+            camera.position.set(0, 0, 15);
             break;
         case '-z':
-            camera.position.set(0, 0, -5);
-            break;
-        case 'center':
-            camera.position.set(0, 2, 5);
+            camera.position.set(0, 0, -15);
             break;
     }
     // Asegúrate de que la cámara siempre mire al cubo central
     camera.lookAt(0, 0, 0);
-    
+
     // Actualiza los controles
     controls.target.set(0, 0, 0);
     controls.update();

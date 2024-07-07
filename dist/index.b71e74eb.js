@@ -612,13 +612,9 @@ const addNegativeAxes = ()=>{
     const materialX = new _three.LineBasicMaterial({
         color: 0xfb4901
     });
-    // Material para el eje negativo Y (verde)
-    const materialY = new _three.LineBasicMaterial({
-        color: 0x00ff00
-    });
     // Material para el eje negativo Z (azul)
     const materialZ = new _three.LineBasicMaterial({
-        color: 0x0000ff
+        color: 0x0070ff
     });
     // Línea para el eje negativo X
     const pointsX = [];
@@ -627,13 +623,6 @@ const addNegativeAxes = ()=>{
     const geometryX = new _three.BufferGeometry().setFromPoints(pointsX);
     const lineX = new _three.Line(geometryX, materialX);
     scene.add(lineX);
-    // Línea para el eje negativo Y
-    const pointsY = [];
-    pointsY.push(new _three.Vector3(0, -5, 0));
-    pointsY.push(new _three.Vector3(0, 0, 0));
-    const geometryY = new _three.BufferGeometry().setFromPoints(pointsY);
-    const lineY = new _three.Line(geometryY, materialY);
-    scene.add(lineY);
     // Línea para el eje negativo Z
     const pointsZ = [];
     pointsZ.push(new _three.Vector3(0, 0, -5));
@@ -32041,6 +32030,9 @@ var _renderer = require("./renderer");
 const controls = new (0, _orbitControlsJs.OrbitControls)((0, _camera.camera), (0, _renderer.renderer).domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.25;
+// Configura los límites del movimiento de la cámara
+controls.maxPolarAngle = Math.PI / 2; // Limita la cámara a no moverse por debajo del plano XY
+controls.update();
 
 },{"three/examples/jsm/controls/OrbitControls.js":"cjIeq","./camera":"4gvyn","./renderer":"8mXWY","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"cjIeq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32886,7 +32878,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "camera", ()=>camera);
 var _three = require("three");
 const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 2, 5);
+camera.position.set(0, 5, 15);
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"8mXWY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32930,7 +32922,7 @@ const addCubes = (scene)=>{
     const cube1 = new _three.Mesh(geometry1, material1);
     scene.add(cube1);
     // Añade el segundo cubo con dimensiones diferentes
-    const geometry2 = new _three.BoxGeometry(5, 5, 0.01);
+    const geometry2 = new _three.BoxGeometry(5, 5, 2);
     const material2 = new _three.MeshBasicMaterial({
         color: 0xffffff
     });
@@ -32947,10 +32939,25 @@ var _three = require("three");
 const addGrid = (scene)=>{
     const size = 20; // Tamaño de la cuadrícula
     const divisions = 20; // Número de divisiones en la cuadrícula
-    const gridHelper = new _three.GridHelper(size, divisions, 0x444444, 0x888888);
+    // Cuadrícula horizontal
+    const gridHelper = new _three.GridHelper(size, divisions, 0x444444);
     gridHelper.material.opacity = 0.5;
     gridHelper.material.transparent = true;
     scene.add(gridHelper);
+    // Cuadrícula vertical (XZ plane)
+    const verticalGridHelperXZ = new _three.GridHelper(size, divisions, 0x444444);
+    verticalGridHelperXZ.material.opacity = 0.5;
+    verticalGridHelperXZ.material.transparent = true;
+    verticalGridHelperXZ.position.set(0, 10, 0);
+    verticalGridHelperXZ.rotation.x = Math.PI / 2;
+    scene.add(verticalGridHelperXZ);
+    // Cuadrícula vertical (YZ plane)
+    const verticalGridHelperYZ = new _three.GridHelper(size, divisions, 0x444444);
+    verticalGridHelperYZ.material.opacity = 0.5;
+    verticalGridHelperYZ.material.transparent = true;
+    verticalGridHelperYZ.position.set(0, 10, 0);
+    verticalGridHelperYZ.rotation.z = Math.PI / 2;
+    scene.add(verticalGridHelperYZ);
 };
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"2Ot1M":[function(require,module,exports) {
@@ -32963,25 +32970,21 @@ var _controls = require("./controls");
 const moveCameraToAxis = (axis)=>{
     switch(axis){
         case "x":
-            (0, _camera.camera).position.set(5, 0, 0);
+            (0, _camera.camera).position.set(15, 0, 0);
             break;
         case "-x":
-            (0, _camera.camera).position.set(-5, 0, 0);
+            (0, _camera.camera).position.set(-15, 0, 0);
             break;
         case "y":
-            (0, _camera.camera).position.set(0, 5, 0);
+            (0, _camera.camera).position.set(0, 15, 0);
             break;
         case "-y":
-            (0, _camera.camera).position.set(0, -5, 0);
-            break;
+            return; // No hacer nada para el eje -y
         case "z":
-            (0, _camera.camera).position.set(0, 0, 5);
+            (0, _camera.camera).position.set(0, 0, 15);
             break;
         case "-z":
-            (0, _camera.camera).position.set(0, 0, -5);
-            break;
-        case "center":
-            (0, _camera.camera).position.set(0, 2, 5);
+            (0, _camera.camera).position.set(0, 0, -15);
             break;
     }
     // Asegúrate de que la cámara siempre mire al cubo central

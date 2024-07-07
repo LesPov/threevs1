@@ -10,10 +10,9 @@ scene.add(axesHelper);
 const addNegativeAxes = () => {
     // Material para el eje negativo X (rojo)
     const materialX = new THREE.LineBasicMaterial({ color: 0xfb4901 });
-    // Material para el eje negativo Y (verde)
-    const materialY = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+    
     // Material para el eje negativo Z (azul)
-    const materialZ = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    const materialZ = new THREE.LineBasicMaterial({ color: 0x0070ff });
 
     // Línea para el eje negativo X
     const pointsX = [];
@@ -23,13 +22,7 @@ const addNegativeAxes = () => {
     const lineX = new THREE.Line(geometryX, materialX);
     scene.add(lineX);
 
-    // Línea para el eje negativo Y
-    const pointsY = [];
-    pointsY.push(new THREE.Vector3(0, -5, 0));
-    pointsY.push(new THREE.Vector3(0, 0, 0));
-    const geometryY = new THREE.BufferGeometry().setFromPoints(pointsY);
-    const lineY = new THREE.Line(geometryY, materialY);
-    scene.add(lineY);
+ 
 
     // Línea para el eje negativo Z
     const pointsZ = [];
@@ -43,3 +36,4 @@ const addNegativeAxes = () => {
 addNegativeAxes();
 
 export { scene };
+
