@@ -14,7 +14,8 @@ const moveCameraToAxis = (axis: string) => {
             camera.position.set(0, 15, 0);
             break;
         case '-y':
-            return; // No hacer nada para el eje -y
+            camera.position.set(0, -15, 0);
+            break; // No hacer nada para el eje -y
         case 'z':
             camera.position.set(0, 0, 15);
             break;

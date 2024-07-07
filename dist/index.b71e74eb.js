@@ -603,33 +603,63 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "scene", ()=>scene);
 var _three = require("three");
 const scene = new _three.Scene();
-// Helper para los ejes
-const axesHelper = new _three.AxesHelper(5);
-scene.add(axesHelper);
+// Materiales para los ejes con desplazamiento para evitar Z-fighting
+const materialX = new _three.LineBasicMaterial({
+    color: 0xff0000,
+    linewidth: 2,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1
+});
+const materialY = new _three.LineBasicMaterial({
+    color: 0x00ff00,
+    linewidth: 2,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1
+});
+const materialZ = new _three.LineBasicMaterial({
+    color: 0x0000ff,
+    linewidth: 2,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1
+});
+// Función para crear un eje
+const createAxis = (points, material)=>{
+    const geometry = new _three.BufferGeometry().setFromPoints(points);
+    return new _three.Line(geometry, material);
+};
+// Crear y añadir ejes positivos
+const xAxis = createAxis([
+    new _three.Vector3(0, 0, 0),
+    new _three.Vector3(5, 0, 0)
+], materialX);
+const yAxis = createAxis([
+    new _three.Vector3(0, 0, 0),
+    new _three.Vector3(0, 5, 0)
+], materialY);
+const zAxis = createAxis([
+    new _three.Vector3(0, 0, 0),
+    new _three.Vector3(0, 0, 5)
+], materialZ);
+scene.add(xAxis);
+scene.add(yAxis);
+scene.add(zAxis);
 // Añadir líneas adicionales para resaltar los ejes negativos
 const addNegativeAxes = ()=>{
-    // Material para el eje negativo X (rojo)
-    const materialX = new _three.LineBasicMaterial({
-        color: 0xfb4901
-    });
-    // Material para el eje negativo Z (azul)
-    const materialZ = new _three.LineBasicMaterial({
-        color: 0x0070ff
-    });
     // Línea para el eje negativo X
-    const pointsX = [];
-    pointsX.push(new _three.Vector3(-5, 0, 0));
-    pointsX.push(new _three.Vector3(0, 0, 0));
-    const geometryX = new _three.BufferGeometry().setFromPoints(pointsX);
-    const lineX = new _three.Line(geometryX, materialX);
-    scene.add(lineX);
+    const negXAxis = createAxis([
+        new _three.Vector3(-5, 0, 0),
+        new _three.Vector3(0, 0, 0)
+    ], materialX);
+    scene.add(negXAxis);
     // Línea para el eje negativo Z
-    const pointsZ = [];
-    pointsZ.push(new _three.Vector3(0, 0, -5));
-    pointsZ.push(new _three.Vector3(0, 0, 0));
-    const geometryZ = new _three.BufferGeometry().setFromPoints(pointsZ);
-    const lineZ = new _three.Line(geometryZ, materialZ);
-    scene.add(lineZ);
+    const negZAxis = createAxis([
+        new _three.Vector3(0, 0, -5),
+        new _three.Vector3(0, 0, 0)
+    ], materialZ);
+    scene.add(negZAxis);
 };
 addNegativeAxes();
 
@@ -32030,9 +32060,8 @@ var _renderer = require("./renderer");
 const controls = new (0, _orbitControlsJs.OrbitControls)((0, _camera.camera), (0, _renderer.renderer).domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.25;
-// Configura los límites del movimiento de la cámara
 controls.maxPolarAngle = Math.PI / 2; // Limita la cámara a no moverse por debajo del plano XY
-controls.update();
+controls.minPolarAngle = 0;
 
 },{"three/examples/jsm/controls/OrbitControls.js":"cjIeq","./camera":"4gvyn","./renderer":"8mXWY","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"cjIeq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32890,9 +32919,8 @@ const renderer = new _three.WebGLRenderer({
 });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.localClippingEnabled = true; // Asegura que está habilitado
 document.body.appendChild(renderer.domElement);
-// Configuración para evitar que la cuadrícula y los ejes desaparezcan al acercarse
-renderer.localClippingEnabled = true;
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"1SQfl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32941,8 +32969,6 @@ const addGrid = (scene)=>{
     const divisions = 20; // Número de divisiones en la cuadrícula
     // Cuadrícula horizontal
     const gridHelper = new _three.GridHelper(size, divisions, 0x444444);
-    gridHelper.material.opacity = 0.5;
-    gridHelper.material.transparent = true;
     scene.add(gridHelper);
     // Cuadrícula vertical (XZ plane)
     const verticalGridHelperXZ = new _three.GridHelper(size, divisions, 0x444444);
@@ -32979,7 +33005,8 @@ const moveCameraToAxis = (axis)=>{
             (0, _camera.camera).position.set(0, 15, 0);
             break;
         case "-y":
-            return; // No hacer nada para el eje -y
+            (0, _camera.camera).position.set(0, -15, 0);
+            break; // No hacer nada para el eje -y
         case "z":
             (0, _camera.camera).position.set(0, 0, 15);
             break;
@@ -33004,6 +33031,6 @@ const initAxisControls = ()=>{
     });
 };
 
-},{"./camera":"4gvyn","./controls":"bkdiG","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}]},["kZriX","h7u1C"], "h7u1C", "parcelRequiredac3")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"6elpC","./camera":"4gvyn","./controls":"bkdiG"}]},["kZriX","h7u1C"], "h7u1C", "parcelRequiredac3")
 
 //# sourceMappingURL=index.b71e74eb.js.map

@@ -6,8 +6,7 @@ const addGrid = (scene: THREE.Scene) => {
 
     // Cuadrícula horizontal
     const gridHelper = new THREE.GridHelper(size, divisions, 0x444444);
-    gridHelper.material.opacity = 0.5;
-    gridHelper.material.transparent = true;
+    
     scene.add(gridHelper);
 
     // Cuadrícula vertical (XZ plane)
