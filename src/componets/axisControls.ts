@@ -5,21 +5,21 @@ import { controls } from './controls';
 const moveCameraToAxis = (axis: string) => {
     switch (axis) {
         case 'x':
-            camera.position.set(15, 0, 0);
+            camera.position.set(50, 5, 0);
             break;
         case '-x':
-            camera.position.set(-15, 0, 0);
+            camera.position.set(-50, 5, 0);
             break;
         case 'y':
-            camera.position.set(0, 15, 0);
+            camera.position.set(0, 50, 0);
             break;
         case '-y':
             return; // No hacer nada para el eje -y
         case 'z':
-            camera.position.set(0, 0, 15);
+            camera.position.set(0,5, 50);
             break;
         case '-z':
-            camera.position.set(0, 0, -15);
+            camera.position.set(0, 5, -50);
             break;
     }
     // Asegúrate de que la cámara siempre mire al cubo central

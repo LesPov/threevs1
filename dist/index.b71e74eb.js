@@ -32073,8 +32073,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "camera", ()=>camera);
 var _three = require("three");
-const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 5, 15);
+const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+camera.position.set(0, 5, 50);
 
 },{"three":"j3IZL","@parcel/transformer-js/src/esmodule-helpers.js":"6elpC"}],"cjIeq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32953,6 +32953,7 @@ const addCubes = (scene)=>{
         color: 0x00ff00
     });
     const cube1 = new _three.Mesh(geometry1, material1);
+    cube1.position.set(0, 0, 0);
     scene.add(cube1);
     // Añade el segundo cubo con dimensiones diferentes
     const geometry2 = new _three.BoxGeometry(5, 5, 2);
@@ -32960,7 +32961,7 @@ const addCubes = (scene)=>{
         color: 0xffffff
     });
     const cube2 = new _three.Mesh(geometry2, material2);
-    cube2.position.set(4, 2.5, 0);
+    cube2.position.set(3.5, 2.5, 0);
     scene.add(cube2);
 };
 
@@ -32974,19 +32975,20 @@ const addGrid = (scene)=>{
     const divisions = 20; // Número de divisiones en la cuadrícula
     // Cuadrícula horizontal
     const gridHelper = new _three.GridHelper(size, divisions, 0x444444);
-    gridHelper.material.opacity = 0.1;
+    gridHelper.material.opacity = 0.2;
     gridHelper.material.transparent = true;
+    gridHelper.position.set(0, 0, 0);
     scene.add(gridHelper);
     // Cuadrícula vertical (XZ plane)
     const verticalGridHelperXZ = new _three.GridHelper(size, divisions, 0x444444);
-    verticalGridHelperXZ.material.opacity = 0.1;
+    verticalGridHelperXZ.material.opacity = 0.2;
     verticalGridHelperXZ.material.transparent = true;
     verticalGridHelperXZ.position.set(0, 10, 0);
     verticalGridHelperXZ.rotation.x = Math.PI / 2;
     scene.add(verticalGridHelperXZ);
     // Cuadrícula vertical (YZ plane)
     const verticalGridHelperYZ = new _three.GridHelper(size, divisions, 0x444444);
-    verticalGridHelperYZ.material.opacity = 0.1;
+    verticalGridHelperYZ.material.opacity = 0.2;
     verticalGridHelperYZ.material.transparent = true;
     verticalGridHelperYZ.position.set(0, 10, 0);
     verticalGridHelperYZ.rotation.z = Math.PI / 2;
@@ -33003,21 +33005,21 @@ var _controls = require("./controls");
 const moveCameraToAxis = (axis)=>{
     switch(axis){
         case "x":
-            (0, _camera.camera).position.set(15, 0, 0);
+            (0, _camera.camera).position.set(50, 5, 0);
             break;
         case "-x":
-            (0, _camera.camera).position.set(-15, 0, 0);
+            (0, _camera.camera).position.set(-50, 5, 0);
             break;
         case "y":
-            (0, _camera.camera).position.set(0, 15, 0);
+            (0, _camera.camera).position.set(0, 50, 0);
             break;
         case "-y":
             return; // No hacer nada para el eje -y
         case "z":
-            (0, _camera.camera).position.set(0, 0, 15);
+            (0, _camera.camera).position.set(0, 5, 50);
             break;
         case "-z":
-            (0, _camera.camera).position.set(0, 0, -15);
+            (0, _camera.camera).position.set(0, 5, -50);
             break;
     }
     // Asegúrate de que la cámara siempre mire al cubo central
